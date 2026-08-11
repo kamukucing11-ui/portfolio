@@ -52,6 +52,11 @@ a{color:inherit;text-decoration:none;}
   backdrop-filter:blur(14px);
   background:rgba(18,21,26,0.72);
   border-bottom:1px solid rgba(255,255,255,0.06);
+  transition:background .3s ease, box-shadow .3s ease;
+}
+.nav.scrolled{
+  background:rgba(18,21,26,0.92);
+  box-shadow:0 8px 24px rgba(0,0,0,.35);
 }
 .nav-inner{
   max-width:var(--maxw);
@@ -136,6 +141,13 @@ a{color:inherit;text-decoration:none;}
   width:min(58%,320px);
   z-index:2;
   filter:drop-shadow(0 20px 40px rgba(0,0,0,.45));
+  opacity:0;
+  transform:translateY(16px);
+  transition:opacity .8s ease, transform .8s ease;
+}
+.hero-photo.loaded{
+  opacity:1;
+  transform:translateY(0);
 }
 .hero-eyebrow{
   text-align:center;
@@ -436,6 +448,17 @@ footer{
 }
 .city-band .wrap{position:relative;z-index:1;}
 
+/* ---------- scroll reveal (experience, sertifikat, kartu bukti) ---------- */
+.exp-item, .cert-card, .proof-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.exp-item.show, .cert-card.show, .proof-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 /* ---------- responsive ---------- */
 @media (max-width:860px){
   .profile-grid,.edu-grid,.skills-grid{
@@ -466,16 +489,8 @@ footer{
   .nav-links.open{transform:translateY(0);}
   .nav-links a{display:block;text-align:center;}
   .nav-toggle{display:block;}
-  .hero-photo{right:50%;transform:translateX(50%);width:70%;}
+  .hero-photo{right:50%;transform:translateX(50%) translateY(16px);width:70%;}
+  .hero-photo.loaded{transform:translateX(50%) translateY(0);}
   .hero-stage{flex-direction:column-reverse;}
   .tools-grid{grid-template-columns:repeat(3,1fr);}
-}
-.exp-item, .cert-card, .proof-card {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity .6s ease, transform .6s ease;
-}
-.exp-item.show, .cert-card.show, .proof-card.show {
-  opacity: 1;
-  transform: translateY(0);
 }
