@@ -470,3 +470,12 @@ footer{
   .hero-stage{flex-direction:column-reverse;}
   .tools-grid{grid-template-columns:repeat(3,1fr);}
 }
+.exp-item, .cert-card, .proof-card {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.exp-item.show, .cert-card.show, .proof-card.show {
+  opacity: 1;
+  transform: translateY(0);
+}
