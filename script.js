@@ -28,3 +28,8 @@ const observer = new IntersectionObserver((entries) => {
 }, { rootMargin: '-40% 0px -50% 0px' });
 
 sections.forEach(sec => observer.observe(sec));
+const revealEls = document.querySelectorAll('.exp-item, .cert-card, .proof-card');
+const revealObserver = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
+}, { threshold: 0.15 });
+revealEls.forEach(el => revealObserver.observe(el));
