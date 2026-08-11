@@ -16,7 +16,7 @@ navLinks.querySelectorAll('a').forEach(link => {
 const sections = document.querySelectorAll('section[id], header[id]');
 const links = document.querySelectorAll('.nav-links a');
 
-const observer = new IntersectionObserver((entries) => {
+const navObserver = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       const id = entry.target.getAttribute('id');
@@ -27,9 +27,30 @@ const observer = new IntersectionObserver((entries) => {
   });
 }, { rootMargin: '-40% 0px -50% 0px' });
 
-sections.forEach(sec => observer.observe(sec));
-const revealEls = document.querySelectorAll('.exp-item, .cert-card, .proof-card');
-const revealObserver = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('show'); });
-}, { threshold: 0.15 });
-revealEls.forEach(el => revealObserver.observe(el));
+sections.forEach(sec => navObserver.observe(sec));
+
+// Animasi muncul halus saat discroll
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+if (prefersReducedMotion) {
+  document.querySelectorAll('.exp-item, .cert-card, .proof-card').forEach(el => el.classList.add('show'));
+} else {
+  const revealGroups = document.querySelectorAll('.card-grid, .cert-grid');
+  revealGroups.forEach(group => {
+    group.querySelectorAll('.proof-card, .cert-card').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 90}ms`;
+    });
+  });
+
+  const revealEls = document.querySelectorAll('.exp-item, .cert-card, .proof-card');
+  const revealObserver = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('show');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+                    }
