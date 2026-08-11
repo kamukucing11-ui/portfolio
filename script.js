@@ -29,11 +29,18 @@ const navObserver = new IntersectionObserver((entries) => {
 
 sections.forEach(sec => navObserver.observe(sec));
 
+// Nav bar jadi lebih tegas begitu halaman mulai discroll
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
 // Animasi muncul halus saat discroll
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 if (prefersReducedMotion) {
   document.querySelectorAll('.exp-item, .cert-card, .proof-card').forEach(el => el.classList.add('show'));
+  document.querySelector('.hero-photo')?.classList.add('loaded');
 } else {
   const revealGroups = document.querySelectorAll('.card-grid, .cert-grid');
   revealGroups.forEach(group => {
@@ -53,4 +60,9 @@ if (prefersReducedMotion) {
   }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
 
   revealEls.forEach(el => revealObserver.observe(el));
-                    }
+
+  // Foto hero muncul pelan begitu halaman pertama dibuka
+  window.addEventListener('load', () => {
+    document.querySelector('.hero-photo')?.classList.add('loaded');
+  });
+}
