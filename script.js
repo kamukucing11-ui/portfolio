@@ -23,15 +23,27 @@ window.addEventListener('scroll', () => {
 
 // Animasi muncul halus saat discroll
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const revealSelector = '.exp-item, .cert-card, .proof-card, .reveal-el';
+const revealSelector = [
+  '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
+  '.section-kicker', '.section-title', '.file-card',
+  '.profile-grid > div:first-child', '.edu-grid > div:first-child',
+  '.skills-grid > div', '.contact-wrap > div:first-child'
+].join(', ');
 
 if (prefersReducedMotion) {
   document.querySelectorAll(revealSelector).forEach(el => el.classList.add('show'));
 } else {
-  const revealGroups = document.querySelectorAll('.card-grid, .cert-grid');
-  revealGroups.forEach(group => {
+  // Stagger kartu bukti/sertifikat dalam satu grid
+  document.querySelectorAll('.card-grid, .cert-grid').forEach(group => {
     group.querySelectorAll('.proof-card, .cert-card').forEach((el, i) => {
       el.style.transitionDelay = `${i * 90}ms`;
+    });
+  });
+
+  // Stagger blok teks vs foto dalam satu baris (mis. profil, edukasi, skills, kontak)
+  document.querySelectorAll('.profile-grid, .edu-grid, .skills-grid, .contact-wrap').forEach(group => {
+    Array.from(group.children).forEach((el, i) => {
+      el.style.transitionDelay = `${i * 130}ms`;
     });
   });
 
@@ -47,3 +59,18 @@ if (prefersReducedMotion) {
 
   revealEls.forEach(el => revealObserver.observe(el));
 }
+
+// Progress bar tipis di atas, mengikuti posisi scroll halaman
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.prepend(progressBar);
+
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
