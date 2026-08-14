@@ -48,14 +48,11 @@ if (prefersReducedMotion) {
   });
 
   const revealEls = document.querySelectorAll(revealSelector);
-  const revealObserver = new IntersectionObserver((entries, obs) => {
+  const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        obs.unobserve(entry.target);
-      }
+      entry.target.classList.toggle('show', entry.isIntersecting);
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  }, { threshold: 0.15, rootMargin: '0px 0px -22% 0px' });
 
   revealEls.forEach(el => revealObserver.observe(el));
 }
