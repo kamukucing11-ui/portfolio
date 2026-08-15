@@ -494,12 +494,20 @@ section.alt{
 }
 
 /* ---------- Certificates ---------- */
+/* Masonry via CSS columns: each card keeps its own natural aspect ratio,
+   so portrait and landscape certificates sit flush with no empty gap. */
 .cert-grid{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:22px;
+  column-count:1;
+  column-gap:22px;
 }
+@media(min-width:640px){.cert-grid{column-count:2;}}
+@media(min-width:900px){.cert-grid{column-count:3;}}
+@media(min-width:1180px){.cert-grid{column-count:4;}}
 .cert-card{
+  display:block;
+  width:100%;
+  break-inside:avoid;
+  margin-bottom:22px;
   background:var(--surface);
   border:1px solid var(--line);
   overflow:hidden;
@@ -507,7 +515,14 @@ section.alt{
   transition:transform .25s ease, border-color .25s ease;
 }
 .cert-card:hover{transform:translateY(-5px);border-color:var(--line-strong);}
-.cert-card img{width:100%;object-fit:cover;filter:grayscale(.1);}
+.cert-card img{
+  width:100%;
+  display:block;
+  object-fit:cover;
+  filter:grayscale(.1);
+  transition:transform 1s cubic-bezier(.16,.8,.24,1);
+}
+.cert-card:not(.show) img{transform:scale(1.08);}
 
 /* ---------- Contact ---------- */
 .contact-wrap{
@@ -572,40 +587,18 @@ footer{
 }
 
 /* ---------- scroll reveal ---------- */
-.exp-item, .cert-card, .proof-card, .reveal-el,
-.section-kicker, .section-title, .file-card,
-.profile-grid > div:first-child, .edu-grid > div:first-child,
-.skills-grid > div, .contact-wrap > div:first-child {
+/* Deliberately minimal: only opacity + transform (GPU-cheap, no layout
+   thrash), each element animates once then stops — safe for low-end devices. */
+.exp-item, .cert-card, .proof-card, .reveal-el {
   opacity: 0;
-  transform: translateY(26px) scale(.98);
-  filter: blur(6px);
-  transition:
-    opacity .8s cubic-bezier(.2,.8,.2,1),
-    transform .8s cubic-bezier(.2,.8,.2,1),
-    filter .8s cubic-bezier(.2,.8,.2,1);
-  will-change: opacity, transform, filter;
+  transform: translateY(24px);
+  transition: opacity .6s ease, transform .6s ease;
 }
-.exp-item.show, .cert-card.show, .proof-card.show, .reveal-el.show,
-.section-kicker.show, .section-title.show, .file-card.show,
-.profile-grid > div:first-child.show, .edu-grid > div:first-child.show,
-.skills-grid > div.show, .contact-wrap > div:first-child.show {
+.exp-item.show, .cert-card.show, .proof-card.show, .reveal-el.show {
   opacity: 1;
-  transform: translateY(0) scale(1);
-  filter: blur(0);
+  transform: translateY(0);
 }
-.section-title{ transition-delay: .1s; }
-
-/* ---------- scroll progress bar ---------- */
-.scroll-progress{
-  position:fixed;
-  top:0; left:0;
-  height:3px;
-  width:0%;
-  background:linear-gradient(90deg,var(--brass-deep),var(--brass),var(--brass-light));
-  box-shadow:0 0 10px rgba(198,154,78,.55);
-  z-index:200;
-  transition:width .12s linear;
-}
+.contact-wrap .file-card{transition-delay:.15s;}
 
 /* ---------- fixed desktop layout ---------- */
 /* Layout is intentionally not responsive: the page always renders at
