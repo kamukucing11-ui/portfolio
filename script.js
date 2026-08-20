@@ -43,11 +43,12 @@ if (navToggle && navOverlay) {
 }
 
 // Animasi muncul halus saat discroll — replay tiap masuk/keluar layar,
-// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop.
+// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop,
+// dan tanpa filter:blur (berat/kurang stabil di sebagian browser HP).
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealSelector = [
   '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
-  '.section-kicker', '.section-title', '.file-card',
+  '.section-kicker', '.section-title',
   '.profile-grid > div:first-child', '.edu-grid > div:first-child',
   '.skills-grid > div', '.contact-wrap > div:first-child'
 ].join(', ');
