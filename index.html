@@ -5,18 +5,30 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <title>Abdullah Yaqizh Ashshidiq — Portfolio</title>
-<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="style.css?v=5">
 </head>
 <body>
 
 <nav class="nav">
   <div class="nav-inner">
-    <div class="brand">AQIZ<span>.</span></div>
+    <div class="nav-left">
+      <div class="brand">AQIZ<span>.</span></div>
+      <div class="nav-utils">
+        <button class="util-btn" id="themeToggle" type="button" aria-label="Ganti mode terang/gelap" title="Light / Dark mode">
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.4"></circle><path d="M12 2.5v2.6M12 18.9v2.6M4.4 4.4l1.85 1.85M17.75 17.75l1.85 1.85M2.5 12h2.6M18.9 12h2.6M4.4 19.6l1.85-1.85M17.75 6.25l1.85-1.85"></path></svg>
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.2 14.6A8.4 8.4 0 1 1 9.4 3.8a6.6 6.6 0 0 0 10.8 10.8z"></path></svg>
+        </button>
+        <button class="util-btn util-lang" id="langToggle" type="button" aria-label="Ganti bahasa" title="Bahasa / Language">
+          <span class="lang-code" data-lang-current>ID</span>
+        </button>
+      </div>
+    </div>
+
     <ul class="nav-links" id="navLinks">
-      <li><a href="#profile" class="active">Profile</a></li>
-      <li><a href="#experience">Experience</a></li>
-      <li><a href="#certificate">Certificate</a></li>
-      <li><a href="#contact">Contact</a></li>
+      <li><a href="#profile" class="active" data-i18n="nav.profile">Profile</a></li>
+      <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+      <li><a href="#certificate" data-i18n="nav.certificate">Certificate</a></li>
+      <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
     </ul>
     <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
       <span></span><span></span><span></span>
@@ -25,17 +37,17 @@
 </nav>
 <div class="nav-overlay" id="navOverlay">
   <ul class="nav-links">
-    <li><a href="#profile">Profile</a></li>
-    <li><a href="#experience">Experience</a></li>
-    <li><a href="#certificate">Certificate</a></li>
-    <li><a href="#contact">Contact</a></li>
+    <li><a href="#profile" data-i18n="nav.profile">Profile</a></li>
+    <li><a href="#experience" data-i18n="nav.experience">Experience</a></li>
+    <li><a href="#certificate" data-i18n="nav.certificate">Certificate</a></li>
+    <li><a href="#contact" data-i18n="nav.contact">Contact</a></li>
   </ul>
 </div>
 
 <!-- ===== HERO ===== -->
 <header class="hero" id="profile">
   <div class="hero-inner hero-inner-simple">
-    <p class="hero-tag">Berkas Profesional · 2026</p>
+    <p class="hero-tag" data-i18n="hero.tag">Berkas Profesional · 2026</p>
     <h1 class="hero-title" aria-label="Portfolio">
       <span style="--i:0">P</span><span style="--i:1">o</span><span style="--i:2">r</span><span style="--i:3">t</span><span style="--i:4">f</span><span style="--i:5">o</span><span style="--i:6">l</span><span style="--i:7">i</span><span style="--i:8">o</span>
     </h1>
@@ -48,7 +60,7 @@
   <div class="wrap profile-grid">
     <div class="reveal-el ios-card">
       <h2 class="profile-name">Abdullah Yaqizh<br>Ashshidiq</h2>
-      <p class="profile-text">
+      <p class="profile-text" data-i18n="profile.text">
         Lulusan S1 Manajemen (IPK 3,58/4,00) dengan pengalaman lintas fungsi di operasional,
         pemasaran digital, dan riset perilaku konsumen. Terbiasa menerjemahkan data dan tren
         digital menjadi strategi promosi yang terukur — dibuktikan lewat penjualan lebih dari
@@ -60,12 +72,12 @@
       <div class="badge-row">
         <span class="badge">IPK 3,58 / 4,00</span>
         <span class="badge">BNSP Digital Marketing</span>
-        <span class="badge">Riset Perilaku Konsumen</span>
+        <span class="badge" data-i18n="profile.badge3">Riset Perilaku Konsumen</span>
       </div>
     </div>
-    <div class="file-photo reveal-el">
+    <div class="file-photo reveal-el tilt"><div class="tilt-fx">
       <img src="assets/profile.jpg" alt="Foto profil Abdullah Yaqizh Ashshidiq">
-      <div class="photo-cap">Foto — Profil</div>
+      <div class="photo-cap" data-i18n="profile.photocap">Foto — Profil</div></div>
     </div>
   </div>
 </section>
@@ -74,18 +86,18 @@
 <section class="alt">
   <div class="wrap edu-grid">
     <div class="reveal-el ios-card">
-      <p class="section-kicker">02 · Riwayat Pendidikan</p>
+      <p class="section-kicker" data-i18n="edu.kicker">02 · Riwayat Pendidikan</p>
       <h2 class="section-title">Education</h2>
       <p class="edu-school">Sekolah Tinggi Ilmu Manajemen YKPN</p>
       <span class="edu-year">2025</span>
-      <p class="edu-note">
+      <p class="edu-note" data-i18n="edu.note">
         Riset: Pengaruh Live Streaming, Online Customer Review, dan Security terhadap Minat
         Beli pada TikTok Shop — riset pemasaran digital dan perilaku konsumen.
       </p>
     </div>
-    <div class="file-photo reveal-el">
+    <div class="file-photo reveal-el tilt"><div class="tilt-fx">
       <img src="assets/grad.jpg" alt="Foto wisuda Abdullah Yaqizh Ashshidiq">
-      <div class="photo-cap">Foto — Wisuda</div>
+      <div class="photo-cap" data-i18n="edu.photocap">Foto — Wisuda</div></div>
     </div>
   </div>
 </section>
@@ -93,7 +105,7 @@
 <!-- ===== SKILLS ===== -->
 <section>
   <div class="wrap">
-    <p class="section-kicker center reveal-el">03 · Kemampuan</p>
+    <p class="section-kicker center reveal-el" data-i18n="skills.kicker">03 · Kemampuan</p>
     <h2 class="section-title center reveal-el" style="margin-bottom:44px">Personal Skills</h2>
     <div class="skills-grid">
       <div class="reveal-el ios-card">
@@ -128,7 +140,7 @@
 <!-- ===== EXPERIENCE ===== -->
 <section class="alt" id="experience">
   <div class="wrap">
-    <p class="section-kicker reveal-el">04 · Rekam Jejak</p>
+    <p class="section-kicker reveal-el" data-i18n="exp.kicker">04 · Rekam Jejak</p>
     <h2 class="section-title reveal-el" style="margin-bottom:24px">Experience</h2>
 
     <div class="exp-item">
@@ -137,17 +149,14 @@
         <h3 class="exp-title">Developer Lonyrath Studio Roblox</h3>
         <span class="exp-role">Freelance · 2025–2026</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp1.desc">
         Merancang dan mengembangkan sistem serta mekanik gim menggunakan Lua untuk aset
         digital kustom sesuai spesifikasi klien. Membangun reputasi transaksi token game
         (Robux) dan aset digital melalui strategi promosi terarah, meningkatkan kepercayaan
         dan volume penjualan di pasar.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Komunitas</div><img src="assets/lonyrath_komunitas.jpg" alt="Komunitas Lonyrath Studio"></div>
-        <div class="proof-card"><div class="card-label">Pembuatan Aset</div><img src="assets/lonyrath_aset.jpg" alt="Pembuatan aset di Roblox Studio"></div>
-        <div class="proof-card"><div class="card-label">Pembelian</div><img src="assets/lonyrath_pembelian.jpg" alt="Bukti transaksi pembelian"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp1.label1">Komunitas</div><img src="assets/lonyrath_komunitas.jpg" alt="Komunitas Lonyrath Studio"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp1.label2">Pembuatan Aset</div><img src="assets/lonyrath_aset.jpg" alt="Pembuatan aset di Roblox Studio"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp1.label3">Pembelian</div><img src="assets/lonyrath_pembelian.jpg" alt="Bukti transaksi pembelian"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -156,7 +165,7 @@
         <h3 class="exp-title">PT Pos Indonesia (Persero) — Internship</h3>
         <span class="exp-role">Marketing &amp; Data Entry · 2024</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp2.desc">
         Mengakuisisi pengguna baru aplikasi PosPay dan PosAja untuk memperluas penetrasi
         layanan digital perusahaan. Menyusun laporan penjualan harian dan menginput lebih
         dari 200 data paket per hari ke sistem internal secara akurat dan tepat waktu.
@@ -164,10 +173,7 @@
         dan konten publikasi Instagram.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Pembuatan Konten</div><img src="assets/pos_konten.jpg" alt="Pembuatan konten PT Pos Indonesia"></div>
-        <div class="proof-card"><div class="card-label">Dokumentasi</div><img src="assets/pos_dokumentasi.jpg" alt="Dokumentasi kegiatan PT Pos Indonesia"></div>
-        <div class="proof-card"><div class="card-label">Mengimput Paket</div><img src="assets/pos_paket.jpg" alt="Mengimput data paket"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp2.label1">Pembuatan Konten</div><img src="assets/pos_konten.jpg" alt="Pembuatan konten PT Pos Indonesia"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp2.label2">Dokumentasi</div><img src="assets/pos_dokumentasi.jpg" alt="Dokumentasi kegiatan PT Pos Indonesia"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp2.label3">Mengimput Paket</div><img src="assets/pos_paket.jpg" alt="Mengimput data paket"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -176,17 +182,14 @@
         <h3 class="exp-title">Komisi Pemilihan Umum (KPU)</h3>
         <span class="exp-role">KPPS 3 · 2024</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp3.desc">
         Menjalankan proses administrasi dan verifikasi surat suara sesuai prosedur resmi
         Pemilu, termasuk pencatatan hasil penghitungan pada Sertifikat Hasil dan Formulir
         Berita Acara. Berkontribusi menjaga akurasi dan integritas proses pemungutan suara
         di tingkat TPS.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Buku Panduan</div><img src="assets/kpu_panduan.jpg" alt="Buku panduan KPPS"></div>
-        <div class="proof-card"><div class="card-label">Pelaksanaan</div><img src="assets/kpu_pelaksanaan.jpg" alt="Pelaksanaan pemungutan suara"></div>
-        <div class="proof-card"><div class="card-label">Kotak Suara</div><img src="assets/kpu_kotak.jpg" alt="Kotak suara KPU"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp3.label1">Buku Panduan</div><img src="assets/kpu_panduan.jpg" alt="Buku panduan KPPS"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp3.label2">Pelaksanaan</div><img src="assets/kpu_pelaksanaan.jpg" alt="Pelaksanaan pemungutan suara"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp3.label3">Kotak Suara</div><img src="assets/kpu_kotak.jpg" alt="Kotak suara KPU"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -195,16 +198,14 @@
         <h3 class="exp-title">Simbelmawa Kemdikbud</h3>
         <span class="exp-role">PKM Kewirausahaan · 2023</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp4.desc">
         Membangun layanan jasa digital marketing dan mengakuisisi klien UMKM yang belum
         memiliki kehadiran digital. Memproduksi total 36 konten Instagram untuk klien dan
         akun ForAds secara rutin setiap bulan, serta menyusun laporan pertanggungjawaban
         PKM secara menyeluruh.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Pembuatan Konten</div><img src="assets/simbelmawa_konten.jpg" alt="Pembuatan konten akun ForAds"></div>
-        <div class="proof-card"><div class="card-label">Pemilik UMKM</div><img src="assets/simbelmawa_umkm.jpg" alt="Bersama pemilik UMKM"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp4.label1">Pembuatan Konten</div><img src="assets/simbelmawa_konten.jpg" alt="Pembuatan konten akun ForAds"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp4.label2">Pemilik UMKM</div><img src="assets/simbelmawa_umkm.jpg" alt="Bersama pemilik UMKM"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -213,16 +214,13 @@
         <h3 class="exp-title">Business Expo</h3>
         <span class="exp-role">Coordinator of Production &amp; Marketing · 2023</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp5.desc">
         Mengelola produksi camilan berbahan dasar susu sapi dari hulu ke hilir dan menerapkan
         sistem Purchase Order via Instagram untuk efisiensi manajemen stok dan pesanan.
         Memasarkan produk hingga terjual lebih dari 200 unit dalam satu periode kegiatan.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Produk</div><img src="assets/expo_produk.jpg" alt="Produk Fried Milk"></div>
-        <div class="proof-card"><div class="card-label">Desain Promosi</div><img src="assets/expo_desain.jpg" alt="Desain promosi Fried Milk"></div>
-        <div class="proof-card"><div class="card-label">Laporan</div><img src="assets/expo_laporan.jpg" alt="Laporan keuangan Business Expo"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp5.label1">Produk</div><img src="assets/expo_produk.jpg" alt="Produk Fried Milk"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp5.label2">Desain Promosi</div><img src="assets/expo_desain.jpg" alt="Desain promosi Fried Milk"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp5.label3">Laporan</div><img src="assets/expo_laporan.jpg" alt="Laporan keuangan Business Expo"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -231,16 +229,13 @@
         <h3 class="exp-title">Rumah Jahit Sanakafaf</h3>
         <span class="exp-role">Konsultan Pendampingan UMKM</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp6.desc">
         Memproduksi 10 materi konten pemasaran Instagram berbasis Canva untuk memperkuat
         daya tarik visual produk mitra UMKM. Mendigitalisasi pencatatan laporan keuangan
         usaha dan memfasilitasi penerbitan Nomor Induk Berusaha (NIB) melalui sistem OSS.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Pembuatan Konten</div><img src="assets/jahit_konten1.jpg" alt="Konten promosi Rumah Jahit Sanakafaf"></div>
-        <div class="proof-card"><div class="card-label">Pemilik UMKM</div><img src="assets/jahit_umkm.jpg" alt="Bersama pemilik Rumah Jahit Sanakafaf"></div>
-        <div class="proof-card"><div class="card-label">Pembuatan Konten</div><img src="assets/jahit_konten2.jpg" alt="Konten produk Rumah Jahit Sanakafaf"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp6.label1">Pembuatan Konten</div><img src="assets/jahit_konten1.jpg" alt="Konten promosi Rumah Jahit Sanakafaf"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp6.label2">Pemilik UMKM</div><img src="assets/jahit_umkm.jpg" alt="Bersama pemilik Rumah Jahit Sanakafaf"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp6.label1">Pembuatan Konten</div><img src="assets/jahit_konten2.jpg" alt="Konten produk Rumah Jahit Sanakafaf"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -249,16 +244,13 @@
         <h3 class="exp-title">LSP Digital Marketing Indonesia (Terlisensi BNSP)</h3>
         <span class="exp-role">Digital Marketing · 2025</span>
       </div>
-      <p class="exp-desc">
+      <p class="exp-desc" data-i18n="exp7.desc">
         Merancang alur strategi pemasaran dan halaman situs yang fokus pada konversi
         penjualan. Mengelola iklan berbayar untuk meningkatkan trafik. Mengoptimasi
         peringkat pencarian dan membangun interaksi audiens di media sosial.
       </p>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Pengenalan</div><img src="assets/cert_pengenalan.jpg" alt="Pelatihan digital marketing"></div>
-        <div class="proof-card"><div class="card-label">Materi</div><img src="assets/cert_materi.jpg" alt="Materi digital marketing"></div>
-        <div class="proof-card"><div class="card-label">Praktik</div><img src="assets/cert_praktik.jpg" alt="Praktik landing page"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp7.label1">Pengenalan</div><img src="assets/cert_pengenalan.jpg" alt="Pelatihan digital marketing"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp7.label2">Materi</div><img src="assets/cert_materi.jpg" alt="Materi digital marketing"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp7.label3">Praktik</div><img src="assets/cert_praktik.jpg" alt="Praktik landing page"></div></div>      </div>
     </div>
 
     <div class="exp-item">
@@ -268,9 +260,7 @@
         <span class="exp-role">Anggota</span>
       </div>
       <div class="card-grid">
-        <div class="proof-card"><div class="card-label">Pelatihan SPSS</div><img src="assets/ipp_spss.jpg" alt="Pelatihan SPSS"></div>
-        <div class="proof-card"><div class="card-label">Pelatihan Digital Marketing</div><img src="assets/ipp_dm.jpg" alt="Pelatihan Digital Marketing"></div>
-      </div>
+        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp8.label1">Pelatihan SPSS</div><img src="assets/ipp_spss.jpg" alt="Pelatihan SPSS"></div></div>        <div class="proof-card tilt"><div class="tilt-fx"><div class="card-label" data-i18n="exp8.label2">Pelatihan Digital Marketing</div><img src="assets/ipp_dm.jpg" alt="Pelatihan Digital Marketing"></div></div>      </div>
     </div>
 
   </div>
@@ -279,19 +269,19 @@
 <!-- ===== CERTIFICATE ===== -->
 <section id="certificate">
   <div class="wrap">
-    <p class="section-kicker center reveal-el">05 · Bukti Kompetensi</p>
+    <p class="section-kicker center reveal-el" data-i18n="cert.kicker">05 · Bukti Kompetensi</p>
     <h2 class="section-title center reveal-el" style="margin-bottom:38px">Certificate</h2>
     <div class="cert-grid">
-      <div class="cert-card"><img src="assets/cert1.jpg" alt="Sertifikat Kompetensi Digital Marketing BNSP"></div>
-      <div class="cert-card"><img src="assets/cert2.jpg" alt="Sertifikat PKM Kewirausahaan"></div>
-      <div class="cert-card"><img src="assets/cert3.jpg" alt="Sertifikat KKL PT Pos Indonesia"></div>
-      <div class="cert-card"><img src="assets/cert4.jpg" alt="Sertifikat Panitia Pelatihan Digital Marketing"></div>
-      <div class="cert-card"><img src="assets/cert5.jpg" alt="Sertifikat Basic Formula Microsoft Excel"></div>
-      <div class="cert-card"><img src="assets/cert6.jpg" alt="Sertifikat Worksheet and Workbook Microsoft Excel"></div>
-      <div class="cert-card"><img src="assets/cert7.jpg" alt="Sertifikat Microsoft Excel Features"></div>
-      <div class="cert-card"><img src="assets/cert8.jpg" alt="Sertifikat Exploring Microsoft Excel Home Tab"></div>
-      <div class="cert-card"><img src="assets/cert9.jpg" alt="Sertifikat Seminar Entrepreneur"></div>
-      <div class="cert-card"><img src="assets/cert10.jpg" alt="Sertifikat Table Manner Course"></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert1.jpg" alt="Sertifikat Kompetensi Digital Marketing BNSP"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert2.jpg" alt="Sertifikat PKM Kewirausahaan"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert3.jpg" alt="Sertifikat KKL PT Pos Indonesia"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert4.jpg" alt="Sertifikat Panitia Pelatihan Digital Marketing"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert5.jpg" alt="Sertifikat Basic Formula Microsoft Excel"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert6.jpg" alt="Sertifikat Worksheet and Workbook Microsoft Excel"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert7.jpg" alt="Sertifikat Microsoft Excel Features"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert8.jpg" alt="Sertifikat Exploring Microsoft Excel Home Tab"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert9.jpg" alt="Sertifikat Seminar Entrepreneur"></div></div>
+      <div class="cert-card tilt"><div class="tilt-fx"><img src="assets/cert10.jpg" alt="Sertifikat Table Manner Course"></div></div>
     </div>
   </div>
 </section>
@@ -300,12 +290,12 @@
 <section class="alt" id="contact">
   <div class="wrap contact-wrap">
     <div class="reveal-el ios-card">
-      <p class="section-kicker">06 · Selesai</p>
-      <h2 class="contact-title">Terima<br>Kasih</h2>
-      <p class="contact-lead">Terbuka untuk peluang di bidang operasional, pemasaran digital, dan riset konsumen. Silakan hubungi lewat salah satu kanal berikut.</p>
+      <p class="section-kicker" data-i18n="contact.kicker">06 · Selesai</p>
+      <h2 class="contact-title" data-i18n="contact.title">Terima<br>Kasih</h2>
+      <p class="contact-lead" data-i18n="contact.lead">Terbuka untuk peluang di bidang operasional, pemasaran digital, dan riset konsumen. Silakan hubungi lewat salah satu kanal berikut.</p>
     </div>
     <div class="file-card reveal-el">
-      <p class="file-label">Kontak</p>
+      <p class="file-label" data-i18n="contact.label">Kontak</p>
       <ul class="contact-list">
         <li><span class="contact-ico">Tel</span> <a href="tel:081578806089">0815-7880-6089</a></li>
         <li><span class="contact-ico">IG</span> <a href="https://instagram.com/yaqizhaja_" target="_blank" rel="noopener">yaqizhaja_</a></li>
@@ -319,6 +309,6 @@
   © 2026 Abdullah Yaqizh Ashshidiq — Portfolio
 </footer>
 
-<script src="script.js?v=4"></script>
+<script src="script.js?v=5"></script>
 </body>
 </html>

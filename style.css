@@ -32,8 +32,48 @@
   --ease-spring:cubic-bezier(.34,1.4,.4,1);
 }
 
+/* ---------- Light theme (paper / lamp-lit dossier) ---------- */
+html[data-theme="light"]{
+  --bg:#f4efe3;
+  --bg-glow:#eee6d3;
+  --card:rgba(255,253,248,.72);
+  --card-solid:#fffdf8;
+  --card-2:rgba(255,253,248,.6);
+  --hairline:rgba(40,32,20,.12);
+  --hairline-strong:rgba(40,32,20,.22);
+  --label:#241e13;
+  --label-dim:rgba(36,30,19,.68);
+  --label-faint:rgba(36,30,19,.42);
+  --accent:#a9762f;
+  --accent-light:#c98f3d;
+  --accent-deep:#7c5a24;
+  --accent-wash:rgba(169,118,47,.13);
+  --shadow-card:0 24px 60px -28px rgba(60,45,20,.35);
+  --shadow-pop:0 30px 70px -22px rgba(60,45,20,.4);
+}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(ellipse 1000px 560px at 12% -8%, rgba(169,118,47,.12), transparent 60%),
+    radial-gradient(ellipse 800px 500px at 100% 10%, rgba(169,118,47,.07), transparent 55%),
+    linear-gradient(180deg,var(--bg),var(--bg-glow) 40%,var(--bg));
+}
+html[data-theme="light"] .file-photo img,
+html[data-theme="light"] .proof-card img,
+html[data-theme="light"] .cert-card img,
+html[data-theme="light"] .tool-tile img{filter:grayscale(0) contrast(1) opacity(1);}
+html[data-theme="light"] .nav{background:rgba(244,239,227,.6);}
+html[data-theme="light"] .nav.scrolled{background:rgba(244,239,227,.88);}
+html[data-theme="light"] .nav-overlay{background:rgba(244,239,227,.85);}
+html[data-theme="light"] ::selection{background:var(--accent-light);color:#fffdf8;}
+
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
 html{scroll-behavior:smooth;}
+
+body,.nav,.nav-overlay,.ios-card,.exp-item,.file-card,.file-photo,.proof-card,.cert-card,
+.tool-tile,.skill-tags span,.badge,.contact-list li,.nav-links a,footer,.hairline,
+.edu-note,.section-kicker,.contact-ico,.util-btn{
+  transition:background-color .5s var(--ease),border-color .5s var(--ease),color .5s var(--ease),box-shadow .5s var(--ease);
+}
 
 body{
   margin:0;
@@ -48,6 +88,23 @@ body{
   position:relative;
   overflow-x:hidden;
 }
+
+/* ---------- Ambient cursor glow (desktop, luxury touch) ---------- */
+.cursor-glow{
+  position:fixed;top:0;left:0;width:26px;height:26px;border-radius:50%;
+  pointer-events:none;z-index:9999;
+  background:radial-gradient(circle,var(--accent-light) 0%,var(--accent) 55%,transparent 75%);
+  mix-blend-mode:screen;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:opacity .3s var(--ease),width .35s var(--ease-spring),height .35s var(--ease-spring);
+  will-change:transform,width,height;
+}
+.cursor-glow.active{opacity:.85;}
+.cursor-glow.big{width:64px;height:64px;opacity:.5;}
+html[data-theme="light"] .cursor-glow{mix-blend-mode:multiply;opacity:0;}
+html[data-theme="light"] .cursor-glow.active{opacity:.35;}
+@media(hover:none),(pointer:coarse){.cursor-glow{display:none;}}
 
 h1,h2,h3,h4{
   font-family:'Fraunces',serif;
@@ -104,6 +161,32 @@ a{color:inherit;text-decoration:none;}
 }
 .brand{font-family:'Fraunces',serif;font-weight:600;font-size:1.15rem;color:var(--label);flex-shrink:0;}
 .brand span{color:var(--accent);}
+
+/* ---------- Utility toggles (theme + language) ---------- */
+.nav-left{display:flex;align-items:center;gap:18px;flex-shrink:0;}
+.nav-utils{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+.util-btn{
+  position:relative;
+  width:38px;height:38px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.05);
+  border:1px solid var(--hairline);
+  border-radius:var(--radius-pill);
+  color:var(--label-dim);
+  cursor:pointer;
+  transition:border-color .3s var(--ease),color .3s var(--ease),background .3s var(--ease),transform .35s var(--ease-spring),box-shadow .3s var(--ease);
+}
+.util-btn:hover{border-color:var(--accent);color:var(--accent-light);background:var(--accent-wash);box-shadow:0 8px 22px -10px rgba(217,167,80,.5);}
+.util-btn:active{transform:scale(.9);}
+.util-btn svg{width:17px;height:17px;position:absolute;transition:opacity .4s var(--ease-spring),transform .5s var(--ease-spring);}
+.icon-sun{opacity:1;transform:rotate(0deg) scale(1);}
+.icon-moon{opacity:0;transform:rotate(-70deg) scale(.4);}
+html[data-theme="light"] .icon-sun{opacity:0;transform:rotate(70deg) scale(.4);}
+html[data-theme="light"] .icon-moon{opacity:1;transform:rotate(0deg) scale(1);}
+.util-lang{width:auto;padding:0 13px;gap:0;}
+.lang-code{font-family:'IBM Plex Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.08em;display:inline-block;transition:transform .3s var(--ease-spring);}
+.util-lang.switching .lang-code{transform:scale(.6) rotate(8deg);opacity:.3;}
+
 .nav-links{
   display:flex;gap:4px;list-style:none;margin:0;padding:0;
   background:rgba(255,255,255,.04);
@@ -396,6 +479,81 @@ footer{
 }
 .section-title{transition-delay:.08s;}
 
+/* ================= Luxury interaction layer ================= */
+
+/* ---- Tilt (3D perspective follow, images & proof/cert cards) ---- */
+.tilt{perspective:900px;}
+.tilt-fx{
+  height:100%;
+  transform-style:preserve-3d;
+  transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
+  transition:transform .6s var(--ease-spring);
+  will-change:transform;
+}
+.tilt.tilting .tilt-fx{transition:transform .08s linear;}
+
+/* Sheen sweep on image hover — a slow diagonal light pass, feels premium not gimmicky */
+.file-photo,.proof-card,.cert-card,.tool-tile{position:relative;overflow:hidden;}
+.file-photo::before,.proof-card::before,.cert-card::before,.tool-tile::before{
+  content:'';
+  position:absolute;inset:0;
+  background:linear-gradient(115deg,transparent 30%,rgba(255,255,255,.16) 45%,rgba(255,255,255,.28) 50%,rgba(255,255,255,.16) 55%,transparent 70%);
+  transform:translateX(-140%) skewX(-12deg);
+  pointer-events:none;
+  z-index:2;
+  transition:transform .95s var(--ease);
+}
+html[data-theme="light"] .file-photo::before,
+html[data-theme="light"] .proof-card::before,
+html[data-theme="light"] .cert-card::before,
+html[data-theme="light"] .tool-tile::before{
+  background:linear-gradient(115deg,transparent 30%,rgba(169,118,47,.22) 45%,rgba(169,118,47,.34) 50%,rgba(169,118,47,.22) 55%,transparent 70%);
+}
+.file-photo:hover::before,.proof-card:hover::before,.cert-card:hover::before,.tool-tile:hover::before{
+  transform:translateX(140%) skewX(-12deg);
+}
+
+/* Cursor-follow spotlight glow on glass cards */
+.ios-card,.exp-item,.file-card{position:relative;overflow:hidden;}
+.ios-card::before,.exp-item::before,.file-card::before{
+  content:'';
+  position:absolute;inset:0;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%), var(--accent-wash), transparent 68%);
+  opacity:0;
+  transition:opacity .5s var(--ease);
+  pointer-events:none;
+  z-index:0;
+}
+.ios-card:hover::before,.exp-item:hover::before,.file-card:hover::before{opacity:1;}
+.ios-card > *,.exp-item > *,.file-card > *{position:relative;z-index:1;}
+
+/* Elevated hover lift with glow shadow */
+.exp-item:hover{transform:translateY(-3px);box-shadow:0 26px 55px -26px rgba(217,167,80,.28),var(--shadow-card);}
+.file-photo:hover,.file-card:hover{box-shadow:0 30px 65px -22px rgba(217,167,80,.32),var(--shadow-card);}
+
+/* Proof/cert card glow ring on hover */
+.proof-card:hover,.cert-card:hover{box-shadow:0 22px 46px -20px rgba(217,167,80,.35);}
+
+/* Magnetic micro-motion on nav utility buttons */
+.util-btn{will-change:transform;}
+
+/* Parallax drift for hero on mouse move */
+.hero-inner{transition:transform .3s var(--ease);}
+
+/* Smooth reveal upgrade: slight rotation entrance for a touch more polish */
+.exp-item,.cert-card,.proof-card,.reveal-el{
+  transform:translateY(24px) scale(.98) rotateX(3deg);
+}
+.exp-item.show,.cert-card.show,.proof-card.show,.reveal-el.show{
+  transform:translateY(0) scale(1) rotateX(0);
+}
+
+@media(prefers-reduced-motion:reduce){
+  .file-photo::before,.proof-card::before,.cert-card::before,.tool-tile::before{display:none;}
+  .cursor-glow{display:none;}
+  .hero-inner{transition:none;}
+}
+
 /* ---------- Responsive ---------- */
 @media(max-width:900px){
   .profile-grid,.edu-grid,.contact-wrap{grid-template-columns:1fr;}
@@ -411,10 +569,14 @@ footer{
   .hero{padding:80px 0 64px;}
   section{padding:64px 0;}
   .exp-item{padding:24px 20px;}
+  .nav-left{gap:12px;}
+  .brand{font-size:1.02rem;}
 }
 @media(max-width:520px){
   .wrap{padding:0 18px;}
   .tools-grid{grid-template-columns:repeat(3,1fr);}
   .exp-head{flex-direction:column;align-items:flex-start;}
   .contact-list li{padding:14px 10px;}
+  .util-btn{width:34px;height:34px;}
+  .util-lang{padding:0 10px;}
 }
