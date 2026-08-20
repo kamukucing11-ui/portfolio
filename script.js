@@ -15,12 +15,6 @@ const navObserver = new IntersectionObserver((entries) => {
 
 sections.forEach(sec => navObserver.observe(sec));
 
-// Nav bar jadi lebih tegas begitu halaman mulai discroll
-const nav = document.querySelector('.nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 20);
-}, { passive: true });
-
 // Menu mobile (hamburger -> fullscreen overlay)
 const navToggle = document.getElementById('navToggle');
 const navOverlay = document.getElementById('navOverlay');
@@ -42,9 +36,10 @@ if (navToggle && navOverlay) {
   navOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
 }
 
-// Animasi muncul halus saat discroll — replay tiap masuk/keluar layar,
-// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop,
-// dan tanpa filter:blur (berat/kurang stabil di sebagian browser HP).
+// Animasi muncul halus saat discroll — main SEKALI per elemen (bukan
+// bolak-balik tiap masuk/keluar layar). Toggle show/hide berulang pada
+// elemen yang pakai backdrop-filter itulah yang bikin GPU kerja keras dan
+// muncul kedip/putih pas scroll cepat di HP. Reveal sekali = jauh lebih mulus.
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const revealSelector = [
   '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
@@ -71,24 +66,81 @@ if (prefersReducedMotion) {
   const revealEls = document.querySelectorAll(revealSelector);
   const revealObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      entry.target.classList.toggle('show', entry.isIntersecting);
+      if (!entry.isIntersecting) return;
+      const el = entry.target;
+      // will-change dipasang hanya sesaat sebelum transisi jalan, lalu
+      // dilepas begitu selesai — bukan dipasang permanen di semua kartu
+      // sekaligus (itu yang bikin browser HP kehabisan memori layer GPU
+      // dan sesekali "gagal render" jadi putih sekilas).
+      el.style.willChange = 'opacity, transform';
+      el.classList.add('show');
+      el.addEventListener('transitionend', () => {
+        el.style.willChange = 'auto';
+      }, { once: true });
+      revealObserver.unobserve(el);
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -12% 0px' });
+  }, { threshold: 0.1, rootMargin: '0px 0px -10% 0px' });
 
   revealEls.forEach(el => revealObserver.observe(el));
 }
 
-// Progress bar tipis di atas, mengikuti posisi scroll halaman
+// Foto fade-in halus begitu selesai dimuat/didekode — mencegah kotak putih
+// kosong nongol duluan sebelum gambar siap (ini penyebab utama efek
+// "loading putih-putih" saat scroll cepat di koneksi HP yang lebih lambat).
+document.querySelectorAll('img').forEach(img => {
+  if (img.complete && img.naturalWidth > 0) {
+    img.classList.add('is-loaded');
+    return;
+  }
+  const markLoaded = () => img.classList.add('is-loaded');
+  img.addEventListener('load', markLoaded, { once: true });
+  img.addEventListener('error', markLoaded, { once: true }); // gambar gagal load pun jangan nyangkut transparan
+});
+
+// Efek ketik pada tag hero — jalan sekali di awal, sesudah animasi fadeUp-nya.
+const heroTag = document.getElementById('heroTag');
+if (heroTag && !prefersReducedMotion) {
+  const fullText = heroTag.textContent;
+  heroTag.textContent = '';
+  setTimeout(() => {
+    heroTag.classList.add('typing');
+    let i = 0;
+    (function typeStep() {
+      heroTag.textContent = fullText.slice(0, i);
+      i++;
+      if (i <= fullText.length) {
+        setTimeout(typeStep, 34);
+      } else {
+        setTimeout(() => heroTag.classList.remove('typing'), 900);
+      }
+    })();
+  }, 500);
+}
+
+// Nav bar jadi lebih tegas + progress bar tipis di atas — digabung jadi satu
+// listener scroll yang dibatch lewat requestAnimationFrame, supaya kerjanya
+// selaras dengan siklus render browser (bukan dieksekusi berkali-kali mentah
+// tiap event scroll, yang bikin momentum-scroll di HP terasa kurang mulus).
+const nav = document.querySelector('.nav');
 const progressBar = document.createElement('div');
 progressBar.className = 'scroll-progress';
 document.body.prepend(progressBar);
 
-function updateScrollProgress() {
+let scrollTicking = false;
+function onScrollFrame() {
   const scrollTop = window.scrollY;
   const docHeight = document.documentElement.scrollHeight - window.innerHeight;
   const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
   progressBar.style.width = pct + '%';
+  nav.classList.toggle('scrolled', scrollTop > 20);
+  scrollTicking = false;
 }
-window.addEventListener('scroll', updateScrollProgress, { passive: true });
-window.addEventListener('resize', updateScrollProgress);
-updateScrollProgress();
+function onScroll() {
+  if (!scrollTicking) {
+    requestAnimationFrame(onScrollFrame);
+    scrollTicking = true;
+  }
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+window.addEventListener('resize', onScrollFrame);
+onScrollFrame();
