@@ -1,15 +1,94 @@
-// AQIZ Portfolio — premium interaction engine v5
-const sections=document.querySelectorAll('section[id], header[id]'),links=document.querySelectorAll('.nav-links a'),nav=document.querySelector('.nav'),reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
-new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-40% 0px -50% 0px'});sections.forEach(s=>new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id))}),{rootMargin:'-40% 0px -50% 0px'}).observe(s));
-window.addEventListener('scroll',()=>nav?.classList.toggle('scrolled',scrollY>20),{passive:true});
-const navToggle=document.getElementById('navToggle'),overlay=document.getElementById('navOverlay');function closeNav(){navToggle?.classList.remove('open');overlay?.classList.remove('open');navToggle?.setAttribute('aria-expanded','false');document.body.style.overflow=''}if(navToggle&&overlay){navToggle.onclick=()=>{let o=overlay.classList.toggle('open');navToggle.classList.toggle('open',o);navToggle.setAttribute('aria-expanded',o);document.body.style.overflow=o?'hidden':''};overlay.querySelectorAll('a').forEach(a=>a.onclick=closeNav)}
-const reveal=['.exp-item','.cert-card','.proof-card','.reveal-el','.section-kicker','.section-title','.profile-grid > div:first-child','.edu-grid > div:first-child','.skills-grid > div','.contact-wrap > div:first-child'].join(',');if(reduced)document.querySelectorAll(reveal).forEach(e=>e.classList.add('show'));else{document.querySelectorAll('.card-grid,.cert-grid').forEach(g=>g.querySelectorAll('.proof-card,.cert-card').forEach((e,i)=>e.style.transitionDelay=i*90+'ms'));const o=new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('show',e.isIntersecting)),{threshold:.1,rootMargin:'0px 0px -12% 0px'});document.querySelectorAll(reveal).forEach(e=>o.observe(e))}
-const bar=document.createElement('div');bar.className='scroll-progress';document.body.prepend(bar);function progress(){let h=document.documentElement.scrollHeight-innerHeight;bar.style.width=(h>0?scrollY/h*100:0)+'%'}addEventListener('scroll',progress,{passive:true});addEventListener('resize',progress);progress();
-const theme=document.getElementById('themeToggle'),icon=theme?.querySelector('.theme-icon');if(localStorage.getItem('aqiz-theme')==='light')document.documentElement.classList.add('theme-light');function sync(){let l=document.documentElement.classList.contains('theme-light');if(icon)icon.textContent=l?'☀':'☾';theme?.setAttribute('aria-label',l?'Switch to dark mode':'Switch to light mode')}sync();
-const T={id:{'nav.profile':'Profile','nav.experience':'Experience','nav.certificate':'Certificate','nav.contact':'Contact','hero.tag':'Berkas Profesional · 2026','section.education':'02 · Riwayat Pendidikan','section.skills':'03 · Kemampuan','section.experience':'04 · Rekam Jejak','section.certificate':'05 · Bukti Kompetensi','section.contact':'06 · Selesai','education.title':'Education','skills.title':'Personal Skills','skills.soft':'Soft Skills','skills.tools':'Tools','experience.title':'Experience','certificate.title':'Certificate','contact.title':'Terima<br>Kasih','education.school':'Sekolah Tinggi Ilmu Manajemen YKPN','education.note':'Riset: Pengaruh Live Streaming, Online Customer Review, dan Security terhadap Minat Beli pada TikTok Shop — riset pemasaran digital dan perilaku konsumen.','contact.label':'Kontak','contact.lead':'Terbuka untuk peluang di bidang operasional, pemasaran digital, dan riset konsumen. Silakan hubungi lewat salah satu kanal berikut.','profile.text':'Lulusan S1 Manajemen (IPK 3,58/4,00) dengan pengalaman lintas fungsi di operasional, pemasaran digital, dan riset perilaku konsumen. Terbiasa menerjemahkan data dan tren digital menjadi strategi promosi yang terukur — dibuktikan lewat penjualan lebih dari 200 unit produk dalam satu kampanye dan penelitian skripsi tentang pengaruh live streaming, ulasan online, dan keamanan transaksi terhadap minat beli di TikTok Shop. Bersertifikasi BNSP Digital Marketing, siap berkontribusi langsung pada efisiensi operasional dan pertumbuhan penjualan berbasis data.'},en:{'nav.profile':'Profile','nav.experience':'Experience','nav.certificate':'Certificates','nav.contact':'Contact','hero.tag':'Professional Portfolio · 2026','section.education':'02 · Education','section.skills':'03 · Skills','section.experience':'04 · Track Record','section.certificate':'05 · Credentials','section.contact':'06 · Finish','education.title':'Education','skills.title':'Personal Skills','skills.soft':'Soft Skills','skills.tools':'Tools','experience.title':'Experience','certificate.title':'Certificates','contact.title':'Thank<br>You','education.school':'Yogyakarta College of Management','education.note':'Research: The Influence of Live Streaming, Online Customer Review, and Security on Purchase Intention in TikTok Shop — digital marketing and consumer behavior research.','contact.label':'Contact','contact.lead':'Open to opportunities in operations, digital marketing, and consumer research. Feel free to reach out through any of the channels below.','profile.text':'Bachelor of Management graduate (GPA 3.58/4.00) with cross-functional experience in operations, digital marketing, and consumer behavior research. Skilled at translating data and digital trends into measurable promotional strategies — demonstrated by selling more than 200 product units in one campaign and conducting undergraduate research on live streaming, online reviews, and transaction security in TikTok Shop. BNSP-certified in Digital Marketing, ready to contribute directly to operational efficiency and data-driven sales growth.'}};
-let lang=localStorage.getItem('aqiz-lang')||'id';function applyLang(l){lang=l;localStorage.setItem('aqiz-lang',l);document.documentElement.lang=l;document.querySelectorAll('[data-i18n]').forEach(e=>{let v=T[l][e.dataset.i18n];if(v!==undefined)e.innerHTML=v});let x=document.querySelector('.lang-label');if(x)x.textContent=l==='id'?'EN':'ID'}applyLang(lang);
-function burst(x,y){if(reduced)return;let r=document.createElement('span');r.className='ripple';r.style.left=x+'px';r.style.top=y+'px';document.body.appendChild(r);r.onanimationend=()=>r.remove()}theme?.addEventListener('click',e=>{document.documentElement.classList.toggle('theme-light');localStorage.setItem('aqiz-theme',document.documentElement.classList.contains('theme-light')?'light':'dark');sync();burst(e.clientX,e.clientY)});document.getElementById('langToggle')?.addEventListener('click',e=>{applyLang(lang==='id'?'en':'id');burst(e.clientX,e.clientY)});document.addEventListener('pointerdown',e=>burst(e.clientX,e.clientY),{passive:true});
-const glow=document.querySelector('.cursor-glow'),dot=document.querySelector('.cursor-dot');let mx=innerWidth/2,my=innerHeight/2,gx=mx,gy=my,cr=false;function cursor(){gx+=(mx-gx)*.13;gy+=(my-gy)*.13;if(glow)glow.style.transform=`translate3d(${gx}px,${gy}px,0)`;if(dot)dot.style.transform=`translate3d(${mx}px,${my}px,0)`;cr=false}addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;document.body.classList.add('cursor-ready');document.body.style.setProperty('--mouse-x',mx+'px');document.body.style.setProperty('--mouse-y',my+'px');if(!cr){cr=true;requestAnimationFrame(cursor)}},{passive:true});
-document.querySelectorAll('.ios-card,.exp-item,.file-photo,.file-card,.proof-card,.cert-card,.tool-tile').forEach(c=>{c.addEventListener('pointermove',e=>{let r=c.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;c.style.setProperty('--spot-x',x+'px');c.style.setProperty('--spot-y',y+'px');if(e.pointerType==='mouse'&&!reduced){let rx=((y/r.height)-.5)*-3.2,ry=((x/r.width)-.5)*3.2;c.style.transform=`perspective(900px) rotateX(${rx}deg) rotateY(${ry}deg) translateY(-3px)`}});c.addEventListener('pointerleave',()=>{c.style.transform='';c.style.removeProperty('--spot-x');c.style.removeProperty('--spot-y')})});
-document.querySelectorAll('.nav-links a,.lang-toggle,.theme-toggle,.nav-toggle,.badge,.skill-tags span').forEach(e=>{e.addEventListener('pointermove',x=>{if(x.pointerType!=='mouse'||reduced)return;let r=e.getBoundingClientRect();e.style.transform=`translate3d(${(x.clientX-(r.left+r.width/2))*.12}px,${(x.clientY-(r.top+r.height/2))*.12}px,0)`});e.addEventListener('pointerleave',()=>e.style.transform='')});
-new IntersectionObserver(es=>es.forEach(e=>e.target.classList.toggle('near-view',e.isIntersecting)),{threshold:.2,rootMargin:'80px 0px 80px'}).observe;document.querySelectorAll('.magnetic-media').forEach(e=>new IntersectionObserver(es=>es.forEach(x=>x.target.classList.toggle('near-view',x.isIntersecting)),{threshold:.2,rootMargin:'80px 0px 80px'}).observe(e));document.addEventListener('keydown',e=>{if(e.key==='Escape')closeNav()});
+// Highlight nav link aktif sesuai scroll
+const sections = document.querySelectorAll('section[id], header[id]');
+const links = document.querySelectorAll('.nav-links a');
+
+const navObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.getAttribute('id');
+      links.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === '#' + id);
+      });
+    }
+  });
+}, { rootMargin: '-40% 0px -50% 0px' });
+
+sections.forEach(sec => navObserver.observe(sec));
+
+// Nav bar jadi lebih tegas begitu halaman mulai discroll
+const nav = document.querySelector('.nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+// Menu mobile (hamburger -> fullscreen overlay)
+const navToggle = document.getElementById('navToggle');
+const navOverlay = document.getElementById('navOverlay');
+
+function closeMobileNav(){
+  navToggle.classList.remove('open');
+  navOverlay.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+if (navToggle && navOverlay) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navOverlay.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  navOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+}
+
+// Animasi muncul halus saat discroll — replay tiap masuk/keluar layar,
+// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop,
+// dan tanpa filter:blur (berat/kurang stabil di sebagian browser HP).
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const revealSelector = [
+  '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
+  '.section-kicker', '.section-title',
+  '.profile-grid > div:first-child', '.edu-grid > div:first-child',
+  '.skills-grid > div', '.contact-wrap > div:first-child'
+].join(', ');
+
+if (prefersReducedMotion) {
+  document.querySelectorAll(revealSelector).forEach(el => el.classList.add('show'));
+} else {
+  document.querySelectorAll('.card-grid, .cert-grid').forEach(group => {
+    group.querySelectorAll('.proof-card, .cert-card').forEach((el, i) => {
+      el.style.transitionDelay = `${i * 90}ms`;
+    });
+  });
+
+  document.querySelectorAll('.profile-grid, .edu-grid, .skills-grid, .contact-wrap').forEach(group => {
+    Array.from(group.children).forEach((el, i) => {
+      el.style.transitionDelay = `${i * 130}ms`;
+    });
+  });
+
+  const revealEls = document.querySelectorAll(revealSelector);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('show', entry.isIntersecting);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -12% 0px' });
+
+  revealEls.forEach(el => revealObserver.observe(el));
+}
+
+// Progress bar tipis di atas, mengikuti posisi scroll halaman
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.prepend(progressBar);
+
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
