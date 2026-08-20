@@ -21,29 +21,73 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-// Animasi muncul halus saat discroll
+// Menu mobile (hamburger -> fullscreen overlay)
+const navToggle = document.getElementById('navToggle');
+const navOverlay = document.getElementById('navOverlay');
+
+function closeMobileNav(){
+  navToggle.classList.remove('open');
+  navOverlay.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+if (navToggle && navOverlay) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navOverlay.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  navOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+}
+
+// Animasi muncul halus saat discroll — replay tiap masuk/keluar layar,
+// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop.
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const revealSelector = '.exp-item, .cert-card, .proof-card, .reveal-el';
+const revealSelector = [
+  '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
+  '.section-kicker', '.section-title', '.file-card',
+  '.profile-grid > div:first-child', '.edu-grid > div:first-child',
+  '.skills-grid > div', '.contact-wrap > div:first-child'
+].join(', ');
 
 if (prefersReducedMotion) {
   document.querySelectorAll(revealSelector).forEach(el => el.classList.add('show'));
 } else {
-  const revealGroups = document.querySelectorAll('.card-grid, .cert-grid');
-  revealGroups.forEach(group => {
+  document.querySelectorAll('.card-grid, .cert-grid').forEach(group => {
     group.querySelectorAll('.proof-card, .cert-card').forEach((el, i) => {
       el.style.transitionDelay = `${i * 90}ms`;
     });
   });
 
-  const revealEls = document.querySelectorAll(revealSelector);
-  const revealObserver = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        obs.unobserve(entry.target);
-      }
+  document.querySelectorAll('.profile-grid, .edu-grid, .skills-grid, .contact-wrap').forEach(group => {
+    Array.from(group.children).forEach((el, i) => {
+      el.style.transitionDelay = `${i * 130}ms`;
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  });
+
+  const revealEls = document.querySelectorAll(revealSelector);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('show', entry.isIntersecting);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -12% 0px' });
 
   revealEls.forEach(el => revealObserver.observe(el));
 }
+
+// Progress bar tipis di atas, mengikuti posisi scroll halaman
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.prepend(progressBar);
+
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();
