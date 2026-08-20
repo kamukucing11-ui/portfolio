@@ -485,6 +485,8 @@ footer{
 .tilt{perspective:900px;}
 .tilt-fx{
   height:100%;
+  border-radius:inherit;
+  overflow:hidden;
   transform-style:preserve-3d;
   transform:rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateZ(0);
   transition:transform .6s var(--ease-spring);
