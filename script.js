@@ -21,75 +21,74 @@ window.addEventListener('scroll', () => {
   nav.classList.toggle('scrolled', window.scrollY > 20);
 }, { passive: true });
 
-// Animasi muncul halus saat discroll
+// Menu mobile (hamburger -> fullscreen overlay)
+const navToggle = document.getElementById('navToggle');
+const navOverlay = document.getElementById('navOverlay');
+
+function closeMobileNav(){
+  navToggle.classList.remove('open');
+  navOverlay.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  document.body.style.overflow = '';
+}
+
+if (navToggle && navOverlay) {
+  navToggle.addEventListener('click', () => {
+    const isOpen = navOverlay.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', String(isOpen));
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+  navOverlay.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMobileNav));
+}
+
+// Animasi muncul halus saat discroll — replay tiap masuk/keluar layar,
+// pakai threshold persen (bukan px) supaya konsisten di HP maupun desktop,
+// dan tanpa filter:blur (berat/kurang stabil di sebagian browser HP).
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const revealSelector = '.exp-item, .cert-card, .proof-card, .reveal-el';
+const revealSelector = [
+  '.exp-item', '.cert-card', '.proof-card', '.reveal-el',
+  '.section-kicker', '.section-title',
+  '.profile-grid > div:first-child', '.edu-grid > div:first-child',
+  '.skills-grid > div', '.contact-wrap > div:first-child'
+].join(', ');
 
 if (prefersReducedMotion) {
   document.querySelectorAll(revealSelector).forEach(el => el.classList.add('show'));
 } else {
-  const revealGroups = document.querySelectorAll('.card-grid, .cert-grid');
-  revealGroups.forEach(group => {
+  document.querySelectorAll('.card-grid, .cert-grid').forEach(group => {
     group.querySelectorAll('.proof-card, .cert-card').forEach((el, i) => {
       el.style.transitionDelay = `${i * 90}ms`;
     });
   });
 
-  const revealEls = document.querySelectorAll(revealSelector);
-  const revealObserver = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('show');
-        obs.unobserve(entry.target);
-      }
+  document.querySelectorAll('.profile-grid, .edu-grid, .skills-grid, .contact-wrap').forEach(group => {
+    Array.from(group.children).forEach((el, i) => {
+      el.style.transitionDelay = `${i * 130}ms`;
     });
-  }, { threshold: 0.15, rootMargin: '0px 0px -60px 0px' });
+  });
+
+  const revealEls = document.querySelectorAll(revealSelector);
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      entry.target.classList.toggle('show', entry.isIntersecting);
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -12% 0px' });
 
   revealEls.forEach(el => revealObserver.observe(el));
 }
 
+// Progress bar tipis di atas, mengikuti posisi scroll halaman
+const progressBar = document.createElement('div');
+progressBar.className = 'scroll-progress';
+document.body.prepend(progressBar);
 
-
-/* ===== Modern interaction layer — content unchanged ===== */
-(() => {
-  const root = document.documentElement;
-  const nav = document.querySelector('.nav');
-
-  // Scroll progress indicator.
-  const progress = document.createElement('div');
-  progress.setAttribute('aria-hidden','true');
-  progress.style.cssText = `
-    position:fixed;left:0;top:0;height:3px;width:0;z-index:10000;
-    background:linear-gradient(90deg,#0071e3,#5e5ce6);
-    border-radius:0 999px 999px 0;pointer-events:none;
-    transition:width .08s linear;
-  `;
-  document.body.appendChild(progress);
-
-  const updateScrollUI = () => {
-    const max = document.documentElement.scrollHeight - innerHeight;
-    progress.style.width = `${max > 0 ? (scrollY / max) * 100 : 0}%`;
-    if (nav) nav.classList.toggle('scrolled', scrollY > 24);
-  };
-  addEventListener('scroll', updateScrollUI, {passive:true});
-  updateScrollUI();
-
-  // Add a tasteful 3D hover tilt to larger media cards on pointer devices.
-  if (matchMedia('(pointer:fine)').matches) {
-    document.querySelectorAll('.proof-card,.cert-card,.file-photo').forEach(card => {
-      card.addEventListener('pointermove', e => {
-        const r = card.getBoundingClientRect();
-        const x = (e.clientX-r.left)/r.width-.5;
-        const y = (e.clientY-r.top)/r.height-.5;
-        card.style.transform = `perspective(900px) rotateX(${(-y*2.2).toFixed(2)}deg) rotateY(${(x*2.2).toFixed(2)}deg) translateY(-4px)`;
-      });
-      card.addEventListener('pointerleave', () => { card.style.transform=''; });
-    });
-  }
-
-  // Native lazy loading for existing images; no image source changes.
-  document.querySelectorAll('img').forEach(img => {
-    if (!img.hasAttribute('loading')) img.setAttribute('loading','lazy');
-    img.style.background = '#f2f2f4';
-  });
-})();
+function updateScrollProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = pct + '%';
+}
+window.addEventListener('scroll', updateScrollProgress, { passive: true });
+window.addEventListener('resize', updateScrollProgress);
+updateScrollProgress();

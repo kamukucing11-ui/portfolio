@@ -3,12 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
 <title>Abdullah Yaqizh Ashshidiq — Portfolio</title>
-<link rel="stylesheet" href="style_ios_modern.css">
-
-<script>
-document.documentElement.classList.add('js');
-</script>
+<link rel="stylesheet" href="style.css?v=4">
 </head>
 <body>
 
@@ -21,8 +18,19 @@ document.documentElement.classList.add('js');
       <li><a href="#certificate">Certificate</a></li>
       <li><a href="#contact">Contact</a></li>
     </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Buka menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
   </div>
 </nav>
+<div class="nav-overlay" id="navOverlay">
+  <ul class="nav-links">
+    <li><a href="#profile">Profile</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#certificate">Certificate</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</div>
 
 <!-- ===== HERO ===== -->
 <header class="hero" id="profile">
@@ -38,7 +46,7 @@ document.documentElement.classList.add('js');
 <!-- ===== PROFILE ===== -->
 <section>
   <div class="wrap profile-grid">
-    <div class="reveal-el">
+    <div class="reveal-el ios-card">
       <h2 class="profile-name">Abdullah Yaqizh<br>Ashshidiq</h2>
       <p class="profile-text">
         Lulusan S1 Manajemen (IPK 3,58/4,00) dengan pengalaman lintas fungsi di operasional,
@@ -65,7 +73,7 @@ document.documentElement.classList.add('js');
 <!-- ===== EDUCATION ===== -->
 <section class="alt">
   <div class="wrap edu-grid">
-    <div class="reveal-el">
+    <div class="reveal-el ios-card">
       <p class="section-kicker">02 · Riwayat Pendidikan</p>
       <h2 class="section-title">Education</h2>
       <p class="edu-school">Sekolah Tinggi Ilmu Manajemen YKPN</p>
@@ -88,7 +96,7 @@ document.documentElement.classList.add('js');
     <p class="section-kicker center reveal-el">03 · Kemampuan</p>
     <h2 class="section-title center reveal-el" style="margin-bottom:44px">Personal Skills</h2>
     <div class="skills-grid">
-      <div class="reveal-el">
+      <div class="reveal-el ios-card">
         <h3 class="sub-h" style="text-align:center">Soft Skills</h3>
         <div class="skill-tags" style="justify-content:center">
           <span>Problem Solving</span>
@@ -100,7 +108,7 @@ document.documentElement.classList.add('js');
           <span>Project Management</span>
         </div>
       </div>
-      <div class="reveal-el">
+      <div class="reveal-el ios-card">
         <h3 class="sub-h" style="text-align:center">Tools</h3>
         <div class="tools-grid">
           <div class="tool-tile"><img src="assets/tool_word.jpg" alt="Microsoft Word"></div>
@@ -291,7 +299,7 @@ document.documentElement.classList.add('js');
 <!-- ===== CONTACT ===== -->
 <section class="alt" id="contact">
   <div class="wrap contact-wrap">
-    <div class="reveal-el">
+    <div class="reveal-el ios-card">
       <p class="section-kicker">06 · Selesai</p>
       <h2 class="contact-title">Terima<br>Kasih</h2>
       <p class="contact-lead">Terbuka untuk peluang di bidang operasional, pemasaran digital, dan riset konsumen. Silakan hubungi lewat salah satu kanal berikut.</p>
@@ -311,6 +319,6 @@ document.documentElement.classList.add('js');
   © 2026 Abdullah Yaqizh Ashshidiq — Portfolio
 </footer>
 
-<script src="script_ios_modern.js"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>
